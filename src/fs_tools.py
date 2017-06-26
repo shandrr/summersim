@@ -14,11 +14,11 @@ import os
 
 #create a file
 def create_file(name):
-	print('TODO')
+	print('create_file TODO')
 
 #read text in from a file
 def read_file(path):
-	print('TODO')
+	print('read_file TODO')
 
 #process environment conditions
 def env_check():

@@ -9,24 +9,27 @@
 #LOCAL IMPORTS
 import fileio as fio
 
+
+#CLASSES
+
 #FUNCTIONS
 
 #create the program window
 def create_GUI():
-	print('TODO')
+	print('create_GUI TODO')
 
 #close the program window
 def close_GUI():
-	print('TODO')
+	print('close_GUI TODO')
 
 #update the user interface
 def update_gui():
-	print('TODO')
+	print('update_gui TODO')
 
 #save game state to a file
-def save_gamestate():
-	print('TODO')
+def save_simstate():
+	print('save_simstate TODO')
 
 #load existing game state from file, if such files exist.
-def load_gamestate():
-	print('TODO')
+def load_simstate(filename):
+	print('load_simstate TODO')

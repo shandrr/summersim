@@ -11,17 +11,18 @@
 #------------------------------------------------------------------------------
 
 
-EXEBIN	= summergame 
+EXEBIN	= summersim
 CLASSES	= $(%.py)
 
 all:
-	@echo Nothing to do here. Python is an interpretive language so no need to compile.
+	@echo Python is an interpretive language so no need to compile.
+	@make run
 
 run: $(EXEBIN)
 
 $(EXEBIN):$(CLASSES)
 	@echo runyanjake-$(EXEBIN): running $(EXEBIN). . .
 	@echo
-	python3 ./src/main.py
+	python3 ./src/$(EXEBIN).py
 	@echo
 	@echo runyanjake-$(EXEBIN): done.
