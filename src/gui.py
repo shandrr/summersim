@@ -18,6 +18,10 @@ import fileio as fio
 root = Tk() #where we'll put stuff in tkinter
 width = 800
 height = 600
+ctrllr_background = 'red'
+stats_background = 'green'
+viewr_background = 'blue'
+
 
 #EXAMPLE MAKING BLANK WINDOW (uses root defined above)
 #label = Label(root, text = "newlabel") #create new label
@@ -34,21 +38,21 @@ def create_GUI():
     root.bind("<Escape>", lambda e: e.widget.quit())
         
     #set up controller bottom window
-    controller = Frame(root)
-    controllerlabel = Label(controller, text="controller")
-    controllerlabel.pack()
+    controller = Frame(root, width=width, height=int(height/5.0), background = ctrllr_background)
+    # controllerlabel = Label(controller, text="controller", background = ctrllr_background)
+    # controllerlabel.pack()
     controller.pack(side=BOTTOM)
         
     #set up stats RHS
-    stats = Frame(root)
-    statslabel = Label(stats, text="stats")
-    statslabel.pack()
+    stats = Frame(root, width=((width/10)*3), height=int((height/5.0)*4), background = stats_background)
+    # statslabel = Label(stats, text="stats")
+    # statslabel.pack()
     stats.pack(side=RIGHT)
         
-    #set up viewer LHS
-    viewer = Frame(root)
-    viewerlabel = Label(viewer, text="viewer")
-    viewerlabel.pack()
+    # set up viewer LHS
+    viewer = Frame(root, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
+    # viewerlabel = Label(viewer, text="viewer")
+    # viewerlabel.pack()
     viewer.pack(side=LEFT)
 
 #close the program window
@@ -58,8 +62,8 @@ def close_GUI():
 #update the user interface
 def show_GUI():
     #show gui to window.
+    root.focus_force()
     root.mainloop()
-    #root.after(1000, lambda: root.focus_force())
 
 #save game state to a file
 def save_simstate():

@@ -24,6 +24,7 @@ def read_file(path):
 def env_check():
 	if os.name == 'posix':
 		print('Operating system module: POSIX')
+		os_is_posix = 1
 	elif os.name == 'nt':
 		print('Operating system module: NT')
 	elif os.name == 'java':
