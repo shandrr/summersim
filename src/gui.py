@@ -3,9 +3,12 @@
 # @git www.github.com/runyanjake/summersim
 # @file /summersim/gui.py
 #
+# Window architecture adapted from https://stackoverflow.com/questions/7546050/switch-between-two-tk.Frames-in-tkinter
+#
 
 #LIBRARY IMPORTS
-from tkinter import *
+from tkinter import font as tkfont
+import tkinter as tk
 
 #LOCAL IMPORTS
 import fileio as fio
@@ -15,58 +18,183 @@ import fileio as fio
 #FUNCTIONS
 
 #VARIABLES
-root = Tk() #where we'll put stuff in tkinter
 width = 800
 height = 600
 ctrllr_background = 'red'
 stats_background = 'green'
 viewr_background = 'blue'
-#non-resizeable 800x600window
-root.geometry('{}x{}'.format(width, height))
-root.resizable(width=False, height=False)
+default_background = 'gray'
+curpage = 0 #0=landingpage, 1=simpage
 
 
 #EXAMPLE MAKING BLANK WINDOW (uses root defined above)
 #label = Label(root, text = "newlabel") #create new label
 #label.pack() #pack label, get ready to do stuff.
-#root.mainloop() #puts root in infinite loop until we close so it doesnt open and close in a frame.
+#root.mainloop() #puts root in infinite loop until we close so it doesnt open and close in a tk.Frame.
+
+#application class
+class Sim(tk.Tk):
+	def __init__(self, *args, **kwargs):
+		tk.Tk.__init__(self, *args, **kwargs)
+
+
+		self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+
+		# the container is where we'll stack a bunch of frames
+        # on top of each other, then the one we want visible
+        # will be raised above the others
+		container = tk.Frame(self)
+		container.pack(side="top", fill="both", expand=True)
+		container.grid_rowconfigure(0, weight=1)
+		container.grid_columnconfigure(0, weight=1)
+
+		container.configure(background=default_background)
+
+		self.frames = {}
+		for F in (LandingPage, SimPage, HelpPage, ResultsPage):
+			page_name = F.__name__
+			frame = F(parent=container, controller=self)
+			self.frames[page_name] = frame
+
+            # put all of the pages in the same location;
+            # the one on the top of the stacking order
+            # will be the one that is visible.
+			frame.grid(row=0, column=0, sticky="nsew")
+		self.show_frame("LandingPage")
+		#make it move to top window real quick.
+		self.attributes('-topmost', 1)
+		self.attributes('-topmost', 0)
+		#define hotkeys
+		self.bind("<Escape>", lambda e: e.widget.quit())
+
+	def show_frame(self, page_name):
+        #'''Show a frame for the given page name'''
+		frame = self.frames[page_name]
+		frame.tkraise()
+
+class LandingPage(tk.Frame):
+	def __init__(self, parent, controller):
+		tk.Frame.__init__(self, parent)
+		self.controller = controller
+		self.configure(background=default_background)
+		#define label
+		label = tk.Label(self, text="Home", font=controller.title_font, background=default_background)
+		label.pack(side="top", fill="x", pady=10)
+		#transition control
+		simbutton = tk.Button(self, text="Go to the sim page", command=lambda: controller.show_frame("SimPage"), background=default_background)
+		simbutton.pack()
+		helpbutton = tk.Button(self, text="Go to the help page", command=lambda: controller.show_frame("HelpPage"), background=default_background)
+		helpbutton.pack()
+
+class SimPage(tk.Frame):
+	def __init__(self, parent, controller):
+		tk.Frame.__init__(self, parent)
+		self.controller = controller
+		self.configure(background=default_background)
+		#define labels
+		label = tk.Label(self, text="Simulation", font=controller.title_font, background=default_background)
+		label.pack(side="top", fill="x", pady=10)
+		#set up controller bottom window
+		ctrls = tk.Canvas(self, width=width, height=int(height/5.0), background = ctrllr_background)
+		# controllerlabel = Label(controller, text="controller", background = ctrllr_background)
+		# controllerlabel.pack()
+		ctrls.pack(side=tk.BOTTOM)
+		       
+		#set up stats RHS
+		stats = tk.Canvas(self, width=((width/10)*3), height=int((height/5.0)*4), background = stats_background)
+		# statslabel = Label(stats, text="stats")
+		# statslabel.pack()
+		stats.pack(side=tk.RIGHT)
+		       
+		# set up viewer LHS, is array of blocks we'll controll with an array.
+		viewer = tk.Canvas(self, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
+		# viewerlabel = Label(viewer, text="viewer")
+		# viewerlabel.pack()
+		viewer.pack(side=tk.LEFT)
+		#transition control
+		homebutton = tk.Button(ctrls, text="Go to the homepage", command=lambda: controller.show_frame("LandingPage"), background=default_background)
+		homebutton.pack()
+		resultsbutton = tk.Button(ctrls, text="Go to the results page", command=lambda: controller.show_frame("ResultsPage"), background=default_background)
+		resultsbutton.pack()
+
+class HelpPage(tk.Frame):
+	def __init__(self, parent, controller):
+		tk.Frame.__init__(self, parent)
+		self.controller = controller
+		self.configure(background=default_background)
+		#create labels
+		label = tk.Label(self, text="Help", font=controller.title_font)
+		label.configure(background=default_background)
+		label.pack(side="top", fill="x", pady=10)
+		#transition control
+		homebutton = tk.Button(self, text="Go to the home page", command=lambda: controller.show_frame("LandingPage"), background=default_background)
+		homebutton.pack()
+
+class ResultsPage(tk.Frame):
+	def __init__(self, parent, controller):
+		tk.Frame.__init__(self, parent)
+		self.controller = controller
+		self.configure(background=default_background)
+		#create labels
+		label = tk.Label(self, text="Results", font=controller.title_font)
+		label.configure(background=default_background)
+		label.pack(side="top", fill="x", pady=10)
+		#transition control
+		homebutton = tk.Button(self, text="Go to the start page", command=lambda: controller.show_frame("LandingPage"), background=default_background)
+		homebutton.pack()
+
+
 
 #create the program window
 #win=0: landing page
 #win=1: sim page
-def create_GUI(win):
-    #setup exit hotkey
-    root.bind("<Escape>", lambda e: e.widget.quit())
-    print('hi')
-        
-    #set up controller bottom window
-    controller = Frame(root, width=width, height=int(height/5.0), background = ctrllr_background)
-    # controllerlabel = Label(controller, text="controller", background = ctrllr_background)
-    # controllerlabel.pack()
-    controller.pack(side=BOTTOM)
-        
-    #set up stats RHS
-    stats = Frame(root, width=((width/10)*3), height=int((height/5.0)*4), background = stats_background)
-    # statslabel = Label(stats, text="stats")
-    # statslabel.pack()
-    stats.pack(side=RIGHT)
-        
-    # set up viewer LHS
-    viewer = Frame(root, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
-    # viewerlabel = Label(viewer, text="viewer")
-    # viewerlabel.pack()
-    viewer.pack(side=LEFT)
+def create_GUI():
+	simulation = Sim()
+	#create a non-resizeable 800x600window
+	simulation.geometry('{}x{}'.format(width, height))
+	simulation.resizable(width=False, height=False)
+	simulation.mainloop()
 
+def show_landing_screen():
+	print('displaying landing page.')
+	#destroy what's currently on the page, ready it for repaint.
+	destroy_cur_window()
+	#update global vars
+	curpage = 0
+	#set up controller bottom window
+	controller = Canvas(windowtk.Frame, width=width, height=int(height/5.0), background = ctrllr_background)
+	# controllerlabel = Label(controller, text="controller", background = ctrllr_background)
+	# controllerlabel.pack()
+	controller.pack(side=BOTTOM)
+	       
+	#set up stats RHS
+	stats = Canvas(windowtk.Frame, width=((width/10)*3), height=int((height/5.0)*4), background = stats_background)
+	# statslabel = Label(stats, text="stats")
+	# statslabel.pack()
+	stats.pack(side=RIGHT)
+	       
+	# set up viewer LHS, is array of blocks we'll controll with an array.
+	viewer = Canvas(windowtk.Frame, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
+	# viewerlabel = Label(viewer, text="viewer")
+	# viewerlabel.pack()
+	viewer.pack(side=LEFT)
+	windowtk.Frame.bind("<Escape>", lambda e: e.widget.quit())
+	windowtk.Frame.bind("<Return>", lambda e: show_sim_screen())
+	windowtk.Frame.pack()
 
-#close the program window
-def close_GUI():
-    print('close_GUI TODO')
-
-#update the user interface
-def show_GUI():
-    #show gui to window.
-    root.focus_force()
-    root.mainloop()
+def show_sim_screen():
+	print('displaying sim page.')
+	#destroy what's currently on the page, ready it for repaint.
+	destroy_cur_window()
+	#update global vars
+	curpage = 1
+	#set up controller bottom window
+	controller = Canvas(windowtk.Frame, width=width, height=(height), background = ctrllr_background)
+	# controllerlabel = Label(controller, text="controller", background = ctrllr_background)
+	# controllerlabel.pack()
+	controller.pack(side=BOTTOM)
+	windowtk.Frame.bind("<Escape>", lambda e: show_landing_screen()) #pass current page
+	windowtk.Frame.pack()
 
 #save game state to a file
 def save_simstate():
