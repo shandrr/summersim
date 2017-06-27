@@ -46,6 +46,9 @@ print('Beginning simulation...')
 sim.start_sim()
 print('Success.\n')
 
+#Summary
+print('*-*-*-*-* Summary *-*-*-*-*')
+
 #return the time elapsed
 print('Exiting after',end='')
 exit_time = time.time()
@@ -78,3 +81,6 @@ elif int(elapsed_time) == 0:
 else:
 	print(' {} seconds'.format(int(elapsed_time)),end='')
 print('.')
+
+#/Summary
+print('*-*-*-*-*-*-*-*-*-*-*-*-*-*')

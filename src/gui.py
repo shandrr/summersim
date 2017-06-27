@@ -68,6 +68,7 @@ class Sim(tk.Tk):
 		self.attributes('-topmost', 0)
 		#define hotkeys
 		self.bind("<Escape>", lambda e: e.widget.quit())
+		self.bind("<h>", lambda e: self.show_frame("HelpPage"))
 
 	def show_frame(self, page_name):
         #'''Show a frame for the given page name'''
@@ -99,22 +100,24 @@ class SimPage(tk.Frame):
 		label = tk.Label(self, text="Simulation", font=controller.title_font, bg=default_background, fg=default_textcolor)
 		label.pack(side="top", fill="x", pady=10)
 		#set up controller bottom window
-		ctrls = tk.Canvas(self, width=width, height=int(height/5.0), background = ctrllr_background)
+		ctrls = tk.Frame(self, width=width, height=int(height/5.0), background = ctrllr_background)
 		# controllerlabel = Label(controller, text="controller", background = ctrllr_background)
 		# controllerlabel.pack()
 		ctrls.pack(side=tk.BOTTOM)
 		       
 		#set up stats RHS
-		stats = tk.Canvas(self, width=((width/10)*3), height=int((height/5.0)*4), background = stats_background)
+		stats = tk.Frame(self, width=((width/10)*3), height=int((height/5.0)*4), background = stats_background)
 		# statslabel = Label(stats, text="stats")
 		# statslabel.pack()
 		stats.pack(side=tk.RIGHT)
 		       
 		# set up viewer LHS, is array of blocks we'll controll with an array.
-		viewer = tk.Canvas(self, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
-		# viewerlabel = Label(viewer, text="viewer")
-		# viewerlabel.pack()
+		viewer = tk.Frame(self, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
+		#add in the simulation window
+		field = Sim2DField(parent=viewer, controller=self)
+		field.pack()
 		viewer.pack(side=tk.LEFT)
+
 		#transition control
 		homebutton = tk.Button(ctrls, text="Go to the homepage", command=lambda: controller.show_frame("LandingPage"), bg=default_background, fg=default_foreground)
 		homebutton.pack()
@@ -150,6 +153,20 @@ class ResultsPage(tk.Frame):
 		homebutton.pack()
 		simbutton = tk.Button(self, text="Return to sim", command=lambda: controller.show_frame("SimPage"), bg=default_background, fg=default_foreground)
 		simbutton.pack()
+
+#class for creating the grid window, meant to be refreshed rapidly.
+class Sim2DField(tk.Frame):
+	def __init__(self, parent, controller):
+		tk.Frame.__init__(self, parent)
+		self.controller = controller
+		self.configure(background=viewr_background)
+	#start moving
+	def run():
+		print ('running')
+	#stop moving
+	def pause():
+		print ('paused')
+
 
 
 
