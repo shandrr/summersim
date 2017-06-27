@@ -14,7 +14,7 @@ import gui
 #
 def start_sim():
 	gui.load_simstate('tmp')
-	gui.create_GUI()
+	gui.create_GUI(1)
 	gui.show_GUI()
 	
 def step_sim():

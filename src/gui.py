@@ -21,6 +21,9 @@ height = 600
 ctrllr_background = 'red'
 stats_background = 'green'
 viewr_background = 'blue'
+#non-resizeable 800x600window
+root.geometry('{}x{}'.format(width, height))
+root.resizable(width=False, height=False)
 
 
 #EXAMPLE MAKING BLANK WINDOW (uses root defined above)
@@ -29,13 +32,12 @@ viewr_background = 'blue'
 #root.mainloop() #puts root in infinite loop until we close so it doesnt open and close in a frame.
 
 #create the program window
-def create_GUI():
-    #non-resizeable 800x600window
-    root.geometry('{}x{}'.format(width, height))
-    root.resizable(width=False, height=False)
-        
+#win=0: landing page
+#win=1: sim page
+def create_GUI(win):
     #setup exit hotkey
     root.bind("<Escape>", lambda e: e.widget.quit())
+    print('hi')
         
     #set up controller bottom window
     controller = Frame(root, width=width, height=int(height/5.0), background = ctrllr_background)
@@ -54,6 +56,7 @@ def create_GUI():
     # viewerlabel = Label(viewer, text="viewer")
     # viewerlabel.pack()
     viewer.pack(side=LEFT)
+
 
 #close the program window
 def close_GUI():
