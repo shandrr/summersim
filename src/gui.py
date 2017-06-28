@@ -12,6 +12,7 @@ import tkinter as tk
 
 #LOCAL IMPORTS
 import fileio as fio
+import simulation as sim
 
 #CLASSES
 
@@ -28,17 +29,10 @@ default_foreground = 'white'
 default_textcolor = 'black'
 curpage = 0 #0=landingpage, 1=simpage
 
-
-#EXAMPLE MAKING BLANK WINDOW (uses root defined above)
-#label = Label(root, text = "newlabel") #create new label
-#label.pack() #pack label, get ready to do stuff.
-#root.mainloop() #puts root in infinite loop until we close so it doesnt open and close in a tk.Frame.
-
 #application class
 class Sim(tk.Tk):
 	def __init__(self, *args, **kwargs):
 		tk.Tk.__init__(self, *args, **kwargs)
-
 
 		self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
 
@@ -113,9 +107,13 @@ class SimPage(tk.Frame):
 		       
 		# set up viewer LHS, is array of blocks we'll controll with an array.
 		viewer = tk.Frame(self, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
-		#add in the simulation window
-		field = Sim2DField(parent=viewer, controller=self)
-		field.pack()
+		
+		#******************************************
+		#add in the simulation window(will eventually be one of many options)
+		simwindow = sim.Sim2DField(parent=viewer, controller=self)
+		simwindow.pack()
+		#******************************************
+
 		viewer.pack(side=tk.LEFT)
 
 		#transition control
@@ -153,19 +151,6 @@ class ResultsPage(tk.Frame):
 		homebutton.pack()
 		simbutton = tk.Button(self, text="Return to sim", command=lambda: controller.show_frame("SimPage"), bg=default_background, fg=default_foreground)
 		simbutton.pack()
-
-#class for creating the grid window, meant to be refreshed rapidly.
-class Sim2DField(tk.Frame):
-	def __init__(self, parent, controller):
-		tk.Frame.__init__(self, parent)
-		self.controller = controller
-		self.configure(background=viewr_background)
-	#start moving
-	def run():
-		print ('running')
-	#stop moving
-	def pause():
-		print ('paused')
 
 
 
