@@ -8,7 +8,9 @@
 
 #LIBRARY IMPORTS
 from tkinter import font as tkfont
+from tkinter import Widget
 import tkinter as tk
+
 
 #LOCAL IMPORTS
 import fileio as fio
@@ -19,15 +21,14 @@ import simulation as sim
 #FUNCTIONS
 
 #VARIABLES
-width = 800
-height = 600
+width = 800 #also hardcoded in simulation.py
+height = 600 #also hardcoded in simulation.py
 ctrllr_background = 'red'
 stats_background = 'green'
 viewr_background = 'blue'
 default_background = 'gray'
 default_foreground = 'white'
 default_textcolor = 'black'
-curpage = 0 #0=landingpage, 1=simpage
 
 #application class
 class Sim(tk.Tk):
@@ -39,7 +40,7 @@ class Sim(tk.Tk):
 		# the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
-		container = tk.Frame(self)
+		container = tk.Frame(self,width=width,height=height)
 		container.pack(side="top", fill="both", expand=True)
 		container.grid_rowconfigure(0, weight=1)
 		container.grid_columnconfigure(0, weight=1)
@@ -104,17 +105,11 @@ class SimPage(tk.Frame):
 		# statslabel = Label(stats, text="stats")
 		# statslabel.pack()
 		stats.pack(side=tk.RIGHT)
-		       
-		# set up viewer LHS, is array of blocks we'll controll with an array.
-		viewer = tk.Frame(self, width=((width/10)*7), height=int((height/5.0)*4), background = viewr_background)
 		
-		#******************************************
+		#****************************************** CURRENTLY IN PLACE OF VIEWER
 		#add in the simulation window(will eventually be one of many options)
-		simwindow = sim.Sim2DField(parent=viewer, controller=self)
-		simwindow.pack()
+		sim.repaint(self)
 		#******************************************
-
-		viewer.pack(side=tk.LEFT)
 
 		#transition control
 		homebutton = tk.Button(ctrls, text="Go to the homepage", command=lambda: controller.show_frame("LandingPage"), bg=default_background, fg=default_foreground)
