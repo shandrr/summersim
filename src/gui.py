@@ -21,8 +21,8 @@ import simulation as sim
 #FUNCTIONS
 
 #VARIABLES
-width = 800 #also hardcoded in simulation.py
-height = 600 #also hardcoded in simulation.py
+width = 1000 #also hardcoded in simulation.py
+height = 750 #also hardcoded in simulation.py
 ctrllr_background = 'red'
 stats_background = 'green'
 viewr_background = 'blue'
@@ -58,9 +58,9 @@ class Sim(tk.Tk):
             # will be the one that is visible.
 			frame.grid(row=0, column=0, sticky="nsew")
 		self.show_frame("LandingPage")
-		#make it move to top window real quick.
-		self.attributes('-topmost', 1)
-		self.attributes('-topmost', 0)
+		#make it move to top window real quick. TODO
+		# self.attributes('-topmost', 1)
+		# self.attributes('-topmost', 0)
 		#define hotkeys
 		self.bind("<Escape>", lambda e: e.widget.quit())
 		self.bind("<h>", lambda e: self.show_frame("HelpPage"))
@@ -116,6 +116,8 @@ class SimPage(tk.Frame):
 		homebutton.pack()
 		resultsbutton = tk.Button(ctrls, text="Go to the results page", command=lambda: controller.show_frame("ResultsPage"), bg=default_background, fg=default_foreground)
 		resultsbutton.pack()
+		reseedbutton = tk.Button(ctrls, text="Re-seed", command=lambda: sim.repaint(self))
+		reseedbutton.pack()
 
 #class defining help page
 class HelpPage(tk.Frame):
@@ -157,7 +159,7 @@ def create_GUI():
 	simulation = Sim()
 	#create a non-resizeable 800x600window
 	simulation.geometry('{}x{}'.format(width, height))
-	simulation.resizable(width=False, height=False)
+	simulation.resizable(width=True, height=True)
 	simulation.mainloop()
 
 #save game state to a file
