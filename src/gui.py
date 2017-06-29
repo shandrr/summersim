@@ -108,7 +108,8 @@ class SimPage(tk.Frame):
 		
 		#****************************************** CURRENTLY IN PLACE OF VIEWER
 		#add in the simulation window(will eventually be one of many options)
-		sim.repaint(self)
+		canvas = tk.Canvas(self,width=600,height=600) #setting size doesn't work with winfo_width
+		sim.repaint(canvas)
 		#******************************************
 
 		#transition control
@@ -116,7 +117,7 @@ class SimPage(tk.Frame):
 		homebutton.pack()
 		resultsbutton = tk.Button(ctrls, text="Go to the results page", command=lambda: controller.show_frame("ResultsPage"), bg=default_background, fg=default_foreground)
 		resultsbutton.pack()
-		reseedbutton = tk.Button(ctrls, text="Re-seed", command=lambda: sim.repaint(self))
+		reseedbutton = tk.Button(ctrls, text="Re-seed", command=lambda: sim.repaint(canvas))
 		reseedbutton.pack()
 
 #class defining help page

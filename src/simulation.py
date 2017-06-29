@@ -23,12 +23,12 @@ field_attr_saturation = [[0 for x in range(num_width)] for y in range(num_height
 
 #draw
 #modifies array, declared above
-def repaint(frame):
+def repaint(canvas):
 	print('repainting...')
 	#delete all elements to ready for repaint
-	#frame.delete("all")
+	canvas.grid_forget()
 
-	canvas = tk.Canvas(frame,width=width,height=height) #setting size doesn't work with winfo_width
+	# canvas = tk.Canvas(frame,width=width,height=height) #setting size doesn't work with winfo_width
 	canvas.create_line(0,0,100,100)
 	canvas.pack()
 	#drawing constants
