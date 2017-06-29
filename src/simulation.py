@@ -12,10 +12,14 @@ import random as rand
 import gui
 
 #FIELDS
-width = 600 #also hardcoded in gui.py
-height = 600 #also hardcoded in gui.py
-num_width = 100
-num_height = 100
+width = 720 #also hardcoded in gui.py
+height = 480 #also hardcoded in gui.py
+cell_width = 5
+cell_height = 5
+num_width = int(width/cell_width)
+num_height = int(height/cell_height)
+print('arr width: {}'.format(num_width))
+print('arr height: {}'.format(num_height))
 field_type = [[0 for x in range(num_width)] for y in range(num_height)]
 field_attr_saturation = [[0 for x in range(num_width)] for y in range(num_height)]
 
@@ -27,24 +31,17 @@ def repaint(canvas):
 	print('repainting...')
 	#delete all elements to ready for repaint
 	canvas.grid_forget()
-
-	# canvas = tk.Canvas(frame,width=width,height=height) #setting size doesn't work with winfo_width
-	canvas.create_line(0,0,100,100)
+	#put into frame
 	canvas.pack()
-	#drawing constants
-	wid = width
-	hei = height
-	cell_height = int(wid/num_width)
-	cell_width = int(hei/num_height)
 
 	randomize_sim()
 
 	for x in range(num_width):
 		for y in range(num_height):
-			cell_loc_w = int(wid/num_width) * x
-			cell_loc_h = int(hei/num_height) * y
+			cell_loc_w = cell_width * x
+			cell_loc_h = cell_height * y
 			color = 'black'
-			col = field_type[x][y]
+			col = field_type[y][x]
 			if col == 1:
 				color = 'red'
 			elif col == 2:
@@ -67,9 +64,9 @@ def randomize_sim():
 	for x in range(num_width):
 		for y in range(num_height):
 			col = rand.randint(1,5)
-			field_type[x][y] = col
+			field_type[y][x] = col
 			sat = rand.randint(1,255)
-			field_attr_saturation[x][y] = sat
+			field_attr_saturation[y][x] = sat
 	
 def step_sim():
 	print('step_sim TODO')

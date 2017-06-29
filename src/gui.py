@@ -21,8 +21,8 @@ import simulation as sim
 #FUNCTIONS
 
 #VARIABLES
-width = 1000 #also hardcoded in simulation.py
-height = 750 #also hardcoded in simulation.py
+width = 1080 #also hardcoded in simulation.py
+height = 720 #also hardcoded in simulation.py
 ctrllr_background = 'red'
 stats_background = 'green'
 viewr_background = 'blue'
@@ -108,7 +108,7 @@ class SimPage(tk.Frame):
 		
 		#****************************************** CURRENTLY IN PLACE OF VIEWER
 		#add in the simulation window(will eventually be one of many options)
-		canvas = tk.Canvas(self,width=600,height=600) #setting size doesn't work with winfo_width
+		canvas = tk.Canvas(self,width=sim.width,height=sim.height) #setting size doesn't work with winfo_width
 		sim.repaint(canvas)
 		#******************************************
 
