@@ -18,8 +18,6 @@ cell_width = 5
 cell_height = 5
 num_width = int(width/cell_width)
 num_height = int(height/cell_height)
-print('arr width: {}'.format(num_width))
-print('arr height: {}'.format(num_height))
 field_type = [[0 for x in range(num_width)] for y in range(num_height)]
 field_attr_saturation = [[0 for x in range(num_width)] for y in range(num_height)]
 
@@ -33,8 +31,6 @@ def repaint(canvas):
 	canvas.grid_forget()
 	#put into frame
 	canvas.pack()
-
-	randomize_sim()
 
 	for x in range(num_width):
 		for y in range(num_height):
@@ -60,13 +56,21 @@ def start_sim():
 	gui.load_simstate('tmp')
 	gui.create_GUI()
 
-def randomize_sim():
+#randomizes the sim grid color and saturation values
+def randomize_sim(canvas):
 	for x in range(num_width):
 		for y in range(num_height):
 			col = rand.randint(1,5)
 			field_type[y][x] = col
 			sat = rand.randint(1,255)
 			field_attr_saturation[y][x] = sat
+	repaint(canvas)
+
+def save_sim_grid(filename):
+	print('save_sim_grid TODO')
+
+def load_sim_grid(filename):
+	print('load_sim_grid TODO')
 	
 def step_sim():
 	print('step_sim TODO')
