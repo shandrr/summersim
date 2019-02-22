@@ -1,7 +1,7 @@
 matrix:
 - PYTHON_VERSION: "3.5"
-          PYTHON_ARCH: "64"
-          platform: x64
+  PYTHON_ARCH: "64"
+  platform: x64
 test_script:
 - python src/fileio.py
 - python src/fs_tools.py
