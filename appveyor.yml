@@ -1,11 +1,7 @@
-environment:
-
-  #  Python versions that will be tested
-  #  Note: it defines variables that can be used later
-  matrix:
- 
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "64"
+matrix:
+- PYTHON_VERSION: "3.5"
+          PYTHON_ARCH: "64"
+          platform: x64
 test_script:
 - python src/fileio.py
 - python src/fs_tools.py
