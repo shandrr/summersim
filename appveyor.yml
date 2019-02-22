@@ -3,6 +3,6 @@ image:
 
 
 test_script:
-- python fileio.py
+- python src/fileio.py
 
 build: off
