@@ -1,7 +1,7 @@
 image: 
 - Visual Studio 2017
 install:
-- pip install tkinter
+- pip install -y install python36u-tkinter
 test_script:
 - python src/fileio.py
 - python src/fs_tools.py
