@@ -1,7 +1,7 @@
 image: 
 - Visual Studio 2017
 install:
-- pip install tensorflow==1.2.0 --ignore-installed
+- pip install tensorflow==1.2.0 
 test_script:
 - python src/fileio.py
 - python src/fs_tools.py
