@@ -1,7 +1,7 @@
 image: 
 - Visual Studio 2017
 install:
-python -m pip install --upgrade pi
+-m pip install --upgrade pip
 test_script:
 - python src/fileio.py
 - python src/fs_tools.py
