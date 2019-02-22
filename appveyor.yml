@@ -4,5 +4,9 @@ image:
 
 test_script:
 - python src/fileio.py
-
+- python src/fs_tools.py
+- python src/gui.py
+- python src/neuralnet.py
+- python src/simulation.py
+- python src/summersim.py
 build: off
